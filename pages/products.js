@@ -8,7 +8,7 @@ import { CART_ENDPOINT } from "../src/utils/constants/endpoints";
 const FilterProductsComponent = dynamic(() => import("./filterProducts"), {
   ssr: false,
 });
-const AddToCart2Component = dynamic(() => import("./addToCart"), {
+const AddToCart2Component = dynamic(() => import("../src/components/addToCart"), {
   ssr: false,
 });
 const ProductsComponent = ({ listaTodosProdutos }) => {

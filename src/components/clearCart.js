@@ -1,9 +1,7 @@
 import { isEmpty } from "lodash";
-import { clearCart } from "../src/utils/products";
+import { clearCart } from "../../src/utils/products";
 import React, { useState, useEffect, useContext } from "react";
-import AppContext from "../pages/AppContext";
-import Link from "next/link";
-import cx from "classnames";
+import AppContext from "../../src/components/AppContext";
 
 const ClearCart2 = () => {
   const { quantity, setQuantity } = useContext(AppContext);

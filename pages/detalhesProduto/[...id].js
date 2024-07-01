@@ -1,9 +1,6 @@
 import dynamic from "next/dynamic";
 import { getProductsData } from "../../src/utils/products";
 import { useRouter } from "next/router";
-import { CART_ENDPOINT } from "../../src/utils/constants/endpoints";
-import { isEmpty } from "lodash";
-import axios from "axios";
 
 const ProdutoSelectedComponent = dynamic(() => import("../productoSelected"), {
   ssr: false,
@@ -23,41 +20,8 @@ const DetalhesProdutoComponent = () => {
   const { query } = router;
   const parameter2 = query.id;
 
-  const getSession = () => {
-    return localStorage.getItem("x-wc-session");
-  };
-  const getApiCartConfig = () => {
-    const config = {
-      headers: {
-        "X-Headless-CMS": true,
-      },
-    };
+ 
 
-    const storedSession = getSession();
-
-    if (!isEmpty(storedSession)) {
-      config.headers["x-wc-session"] = storedSession;
-    }
-
-    return config;
-  };
-
-  const viewCart2 = async () => {
-    const addOrViewCartConfig = getApiCartConfig();
-    await axios
-      .get(CART_ENDPOINT, addOrViewCartConfig)
-      .then((res) => {
-        console.log(res);
-        res.data.map((item) => {
-          console.log(item);
-        });
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
-
-  viewCart2();
   return (
     <RootLayout>
       <ProdutoSelectedComponent selectedProduct2={products} />

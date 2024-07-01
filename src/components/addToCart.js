@@ -1,7 +1,7 @@
 import { isEmpty } from "lodash";
-import { addToCart } from "../src/utils/products";
+import { addToCart } from "../utils/products";
 import React, { useState, useEffect, useContext } from "react";
-import AppContext from "../pages/AppContext";
+import AppContext from "./AppContext";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import cx from "classnames";

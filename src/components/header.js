@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import AppContext from "../pages/AppContext";
+import AppContext from "./AppContext";
 import Image from "next/image";
 const HomeComponent = () => {
   const { quantity, setQuantity } = useContext(AppContext);

@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import AppContext from "../pages/AppContext";
-
-import { deleteCartItem } from "../src/utils/products";
+import AppContext from "../../src/components/AppContext";
+import { deleteCartItem } from "../../src/utils/products";
 import dynamic from "next/dynamic";
 
-const SomaSubComponent = dynamic(() => import("./somaSub"), {
+const SomaSubComponent = dynamic(() => import("../../pages/somaSub"), {
   ssr: false,
 });
 

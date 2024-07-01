@@ -2,11 +2,11 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
-import AppContext from "../../pages/AppContext";
+import AppContext from "../components/AppContext";
 import { useState, useEffect } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
-const DynamicComponent = dynamic(() => import("../../pages/header"), {
+const DynamicComponent = dynamic(() => import("../components/header"), {
   ssr: false,
 });
 const FooterComponent = dynamic(() => import("../../pages/footer"), {

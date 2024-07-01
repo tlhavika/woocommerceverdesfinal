@@ -5,69 +5,71 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { CART_ENDPOINT } from "../../utils/constants/endpoints";
 import { isEmpty } from "lodash";
-import AppContext from "../../../pages/AppContext";
+import AppContext from "../../components/AppContext";
 const AddRemoveProductComponent = dynamic(
-  () => import("../../../pages/addRemoveProduct"),
+  () => import("../../components/addRemoveProduct"),
   {
     ssr: false,
   }
 );
 
-const ClearCartComponent = dynamic(() => import("../../../pages/clearCart"), {
+const ClearCartComponent = dynamic(() => import("../../components/clearCart"), {
   ssr: false,
 });
 const CarrinhoComponent = () => {
   const { quantity, setQuantity } = useContext(AppContext);
   const [list, setList] = useState([]);
   const [total, setTotal] = useState([]);
-  var listaProdutoVolatel = [];
-  var totalVolatel = 0;
   const qnt = parseInt(quantity);
-  const getSession = () => {
-    return localStorage.getItem("x-wc-session");
-  };
-  const getApiCartConfig = () => {
-    const config = {
-      headers: {
-        "X-Headless-CMS": true,
-      },
-    };
-
-    const storedSession = getSession();
-
-    if (!isEmpty(storedSession)) {
-      config.headers["x-wc-session"] = storedSession;
-    }
-
-    return config;
-  };
-  const viewCart2 = () => {
-    const addOrViewCartConfig = getApiCartConfig();
-
-    axios
-      .get(CART_ENDPOINT, addOrViewCartConfig)
-      .then((res) => {
-        listaProdutoVolatel = [];
-        totalVolatel = 0;
-        res.data.map((item) => {
-          totalVolatel += parseFloat(item.line_total);
-          listaProdutoVolatel.push({
-            quantity: item.quantity,
-            line_total: item.line_total,
-            name: item.data.name,
-            id: item.data.id,
-            cartKey: item.key,
-            src: item.data.images[0].src || "",
-          });
-        });
-        setList(listaProdutoVolatel);
-        setTotal(totalVolatel);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
+  
   useEffect(() => {
+    var listaProdutoVolatel = [];
+    var totalVolatel = 0;
+    
+    const getSession = () => {
+      return localStorage.getItem("x-wc-session");
+    };
+    const getApiCartConfig = () => {
+      const config = {
+        headers: {
+          "X-Headless-CMS": true,
+        },
+      };
+
+      const storedSession = getSession();
+
+      if (!isEmpty(storedSession)) {
+        config.headers["x-wc-session"] = storedSession;
+      }
+
+      return config;
+    };
+    const viewCart2 = () => {
+      const addOrViewCartConfig = getApiCartConfig();
+  
+      axios
+        .get(CART_ENDPOINT, addOrViewCartConfig)
+        .then((res) => {
+          listaProdutoVolatel = [];
+          totalVolatel = 0;
+          res.data.map((item) => {
+            totalVolatel += parseFloat(item.line_total);
+            listaProdutoVolatel.push({
+              quantity: item.quantity,
+              line_total: item.line_total,
+              name: item.data.name,
+              id: item.data.id,
+              cartKey: item.key,
+              src: item.data.images[0].src || "",
+            });
+          });
+          setList(listaProdutoVolatel);
+          setTotal(totalVolatel);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    };
     viewCart2();
     const init = async () => {
       const { Ripple, initTWE } = await import("tw-elements");

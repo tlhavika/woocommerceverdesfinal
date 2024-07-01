@@ -5,7 +5,7 @@ import Image from "next/image";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import { CART_ENDPOINT } from "../src/utils/constants/endpoints";
-const AddToCart2Component = dynamic(() => import("./addToCart"), {
+const AddToCart2Component = dynamic(() => import("../src/components/addToCart"), {
   ssr: false,
 });
 const ProductsHomePageComponent = ({ listaTodosProdutos }) => {

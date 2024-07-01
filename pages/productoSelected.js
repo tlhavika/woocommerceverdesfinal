@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-const AddToCart2Component = dynamic(() => import("./addToCart"), {
+const AddToCart2Component = dynamic(() => import("../src/components/addToCart"), {
   ssr: false,
 });
 const ProdutoSelectedComponent = ({ selectedProduct2 }) => {
@@ -47,6 +47,8 @@ const ProdutoSelectedComponent = ({ selectedProduct2 }) => {
                       {selectedImage === "" ? (
                         <Image
                           src={images[0].src || ""}
+                          width={400}
+                    height={400}
                           className="h-auto max-w-sm rounded-lg transition duration-300 ease-in-out hover:scale-110"
                           style={{ height: "auto", width: "100%" }}
                           alt="..."
@@ -54,6 +56,8 @@ const ProdutoSelectedComponent = ({ selectedProduct2 }) => {
                       ) : (
                         <Image
                           src={selectedImage}
+                          width={400}
+                    height={400}
                           className="h-auto max-w-sm rounded-lg transition duration-300 ease-in-out hover:scale-110"
                           style={{ height: "auto", width: "100%" }}
                           alt="..."
@@ -67,6 +71,8 @@ const ProdutoSelectedComponent = ({ selectedProduct2 }) => {
                             <Image
                               onClick={() => newImage(src)}
                               src={src}
+                              width={400}
+                    height={400}
                               className="h-auto max-w-sm rounded-lg shadow-none transition-shadow duration-300 ease-in-out hover:shadow-lg hover:shadow-black/30"
                               style={{ height: "auto", width: "100%" }}
                               alt="..."
