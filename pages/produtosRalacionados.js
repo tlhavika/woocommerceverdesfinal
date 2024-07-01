@@ -54,7 +54,7 @@ const ProductsRalacionadosComponent = ({ selectedProduct, param }) => {
                     width={400}
                     height={400}
                     className="rounded-t-lg"
-                    src={images}
+                    src={images[0].src || ""}
                     alt=""
                   />
                   <a href={`/detalhesProduto/${slug}`}>
