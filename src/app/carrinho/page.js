@@ -78,7 +78,7 @@ const CarrinhoComponent = () => {
     init();
   }, [quantity]);
   return (
-    <div className="container mx-auto py-4 min-h-50vh">
+    <div className="h-screen container mx-auto py-4 min-h-50vh">
       {qnt === 0 ? (
         <>
           <h5 className="border-b-2 border-neutral-100 px-6 py-3 text-xl font-medium leading-tight dark:border-white/10 mb-4">
