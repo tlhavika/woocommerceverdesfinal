@@ -94,7 +94,7 @@ const FilterProductsComponent = ({ list, setCategoria }) => {
                   >
                     <div className="px-6 py-5 lg:px-8">
                       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                        <div>{categories}</div>
+                        <div className="cursor-pointer">{categories}</div>
                       </div>
                     </div>
                   </div>

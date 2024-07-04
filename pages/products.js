@@ -103,7 +103,7 @@ const ProductsComponent = ({ listaTodosProdutos }) => {
         <>
           <FilterProductsComponent setCategoria={setCategoria} list={list} />
           <div className="container mx-auto py-4 min-h-50vh">
-            <div className="grid grid-cols-1 lg:grid-cols-5 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-6 md:grid-cols-2 gap-4">
               {list?.map(
                 ({
                   id,
@@ -138,10 +138,10 @@ const ProductsComponent = ({ listaTodosProdutos }) => {
                             </a>
                           </div>
                           <div className="p-6 text-surface dark:text-white">
-                            <h5 className="mb-2 text-xl font-medium leading-tight">
+                            <h5 className="mb-2 text-sm font-medium leading-tight">
                               {name || ""}
                             </h5>
-                            <p className="mb-4 text-base text-blue-600 font-extrabold">
+                            <p className="mb-4 text-base text-stone-400 text-center font-extrabold">
                               {Intl.NumberFormat("en-US", {
                                 style: "currency",
                                 currency: "MZN",
@@ -192,10 +192,10 @@ const ProductsComponent = ({ listaTodosProdutos }) => {
                               </a>
                             </div>
                             <div className="p-6 text-surface dark:text-white">
-                              <h5 className="mb-2 text-xl font-medium leading-tight">
+                              <h5 className="mb-2 text-sm font-medium leading-tight">
                                 {name || ""}
                               </h5>
-                              <p className="mb-4 text-base text-blue-600 font-extrabold">
+                              <p className="mb-4 text-base text-stone-400 text-center font-extrabold">
                                 {Intl.NumberFormat("en-US", {
                                   style: "currency",
                                   currency: "MZN",

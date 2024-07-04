@@ -3,7 +3,7 @@ import Image from "next/image";
 const FooterComponent = () => {
   const correct_year = new Date().getFullYear();
   return (
-    <footer className="mt-36 bg-primary text-center text-white dark:bg-neutral-700 dark:text-white/75 lg:text-left">
+    <footer className="mt-36 bg-stone-400 text-center text-white dark:bg-neutral-700 dark:text-white/75 lg:text-left">
       <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-white/10 lg:justify-between">
         <div className="me-12 hidden lg:block">
           <span>Conecte-se conosco nas redes sociais:</span>

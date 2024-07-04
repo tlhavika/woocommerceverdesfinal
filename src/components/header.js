@@ -14,7 +14,7 @@ const HomeComponent = () => {
   }, []);
 
   return (
-    <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-primary py-2 shadow-dark-mild dark:bg-neutral-700 lg:flex-wrap lg:justify-start lg:py-2">
+    <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-stone-400 py-2 shadow-dark-mild dark:bg-neutral-700 lg:flex-wrap lg:justify-start lg:py-2">
       <div className="container lg:mx-auto lg:min-h-50vh">
         <div className="flex w-full flex-wrap items-center justify-between px-3">
           <button

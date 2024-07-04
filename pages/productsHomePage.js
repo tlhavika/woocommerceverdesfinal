@@ -55,7 +55,7 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
         });
 
       listaTodosProdutos.map((it) => {
-        if (contagem <= 4) {
+        if (contagem <= 5) {
           contagem += 1;
           if (listaNomesTemp.includes(it.name)) {
             listCart.map((tf) => {
@@ -105,7 +105,7 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
             <h5 className="border-b-2 border-neutral-100 py-3 text-xl font-medium leading-tight dark:border-white/10 mb-4">
               PRODUTOS
             </h5>
-            <div className="grid grid-cols-1 lg:grid-cols-5 md:grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-6 md:grid-cols-2 gap-4 w-full">
               {list?.map(
                 ({
                   id,
@@ -140,10 +140,10 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
                             </a>
                           </div>
                           <div className="p-6 text-surface dark:text-white">
-                            <h5 className="mb-2 text-xl font-medium leading-tight">
+                            <h5 className="mb-2 text-sm font-medium leading-tight">
                               {name || ""}
                             </h5>
-                            <p className="mb-4 text-base text-blue-600 font-extrabold">
+                            <p className="mb-4 text-base text-stone-400 text-center font-extrabold">
                               {Intl.NumberFormat("en-US", {
                                 style: "currency",
                                 currency: "MZN",
@@ -194,10 +194,10 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
                               </a>
                             </div>
                             <div className="p-6 text-surface dark:text-white">
-                              <h5 className="mb-2 text-xl font-medium leading-tight">
+                              <h5 className="mb-2 text-sm font-medium leading-tight">
                                 {name || ""}
                               </h5>
-                              <p className="mb-4 text-base text-blue-600 font-extrabold">
+                              <p className="mb-4 text-base text-stone-400 text-center font-extrabold">
                                 {Intl.NumberFormat("en-US", {
                                   style: "currency",
                                   currency: "MZN",
@@ -233,12 +233,14 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
                 )
               )}
             </div>
+            <hr className="mt-4" />
             <div className="mt-4 text-right cursor-pointer">
               <a href="/todosProdutos" data-twe-nav-link-ref>
                 Ver mais...
               </a>
             </div>
           </div>
+
         </>
       )}
     </>
