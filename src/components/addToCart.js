@@ -1,5 +1,3 @@
-import { isEmpty } from "lodash";
-import { addToCart } from "../utils/products";
 import React, { useState, useEffect, useContext } from "react";
 import AppContext from "./AppContext";
 import Link from "next/link";
@@ -8,13 +6,33 @@ import cx from "classnames";
 const AddRemoveProductComponent = dynamic(() => import("./addRemoveProduct"), {
   ssr: false,
 });
-const AddToCart2 = ({ id, status, quantity2, cartKey }) => {
+const AddToCart2 = ({
+  id,
+  status,
+  quantity2,
+  cartKey,
+  listCart,
+  setListCart,
+  setGatilho,
+}) => {
   const { quantity, setQuantity } = useContext(AppContext);
   const [isAddedToCart, setIsAddedToCart] = useState(status);
   const [loading, setLoading] = useState(false);
+
+  var cardVolatel = [];
+  function addCard() {
+    setIsAddedToCart(true);
+    cardVolatel.push({ id: id, quantity2: "1" });
+    setListCart([...listCart, cardVolatel]);
+    localStorage.setItem("listCard", JSON.stringify(listCart));
+    setGatilho("b");
+  }
+  useEffect(() => {
+    localStorage.setItem("listCard", JSON.stringify(listCart));
+  }, [listCart]);
   return (
     <div className="flex flex-col">
-      {status ? (
+      {isAddedToCart ? (
         <>
           {isAddedToCart && !loading ? (
             <>
@@ -26,6 +44,8 @@ const AddToCart2 = ({ id, status, quantity2, cartKey }) => {
                   quantity2={quantity2}
                   id={id}
                   cartKey={cartKey}
+                  setIsAddedToCart={setIsAddedToCart}
+                  setGatilho={setGatilho}
                 />
               </Link>
             </>
@@ -39,9 +59,7 @@ const AddToCart2 = ({ id, status, quantity2, cartKey }) => {
             data-twe-ripple-init
             data-twe-ripple-color="light"
             key={id}
-            onClick={() =>
-              addToCart(id ?? 0, 1, setQuantity, setIsAddedToCart, setLoading)
-            }
+            onClick={() => addCard()}
           >
             {loading ? "Adicionando..." : "Adicionar"}
           </button>

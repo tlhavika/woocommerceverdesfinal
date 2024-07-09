@@ -20,8 +20,6 @@ const DetalhesProdutoComponent = () => {
   const { query } = router;
   const parameter2 = query.id;
 
- 
-
   return (
     <RootLayout>
       <ProdutoSelectedComponent selectedProduct2={products} />

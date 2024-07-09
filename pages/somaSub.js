@@ -2,25 +2,13 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { updateCart } from "../src/utils/products";
 import { isEmpty } from "lodash";
 
-const SomaSub = ({ quantity2, setQuantity, cartKey }) => {
+const SomaSub = ({ quantity2, setQuantity, cartKey, setIsAddedToCart }) => {
   const [productCount, setProductCount] = useState(quantity2);
   const [updatingProduct, setUpdatingProduct] = useState(false);
   const [removingProduct, setRemovingProduct] = useState(false);
-
-  /**
-   * Do not allow state update on an unmounted component.
-   *
-   * isMounted is used so that we can set it's value to false
-   * when the component is unmounted.
-   * This is done so that setState ( e.g setRemovingProduct ) in asynchronous calls
-   * such as axios.post, do not get executed when component leaves the DOM
-   * due to product/item deletion.
-   * If we do not do this as not subscription, we will get
-   * "React memory leak warning- Can't perform a React state update on an unmounted component"
-   *
-   * @see https://dev.to/jexperton/how-to-fix-the-react-memory-leak-warning-d4i
-   * @type {React.MutableRefObject<boolean>}
-   */
+  var students = JSON.parse(localStorage.getItem("listCard")) || [];
+  var novaLista = [];
+  var qantVolatel = 0;
   const isMounted = useRef(false);
   useEffect(() => {
     isMounted.current = true;
@@ -30,32 +18,49 @@ const SomaSub = ({ quantity2, setQuantity, cartKey }) => {
       isMounted.current = false;
     };
   }, []);
-
-  /*
-   * When user changes the qty from product input update the cart in localStorage
-   * Also update the cart in global context
-   *
-   * @param {Object} event event
-   *
-   * @return {void}
-   */
   const handleQtyChange = (event, cartKey, type) => {
+    qantVolatel = 0;
+    console.log(cartKey);
     event.stopPropagation();
     let newQty;
-    console.log(productCount);
-    console.log(event);
-    console.log(type);
-    // If the previous cart request is still updatingProduct or removingProduct, then return.
-    if (
-      updatingProduct ||
-      removingProduct ||
-      ("decrement" === type && 1 === productCount)
-    ) {
-      return;
-    }
 
     if (!isEmpty(type)) {
-      newQty = "increment" === type ? productCount + 1 : productCount - 1;
+      newQty =
+        "increment" === type
+          ? parseInt(productCount) + 1
+          : parseInt(productCount) - 1;
+
+      if (parseInt(newQty) <= 0) {
+        setIsAddedToCart(false);
+        students.forEach(function (o) {
+          o = o.filter((s) => o[0].id != cartKey);
+
+          if (o.length === 0) {
+          } else {
+            novaLista.push(o);
+          }
+        });
+      } else {
+        setIsAddedToCart(true);
+        students.forEach(function (o) {
+          if (o[0].id === cartKey) {
+            o = o.filter((s) => o[0].id != cartKey);
+            novaLista.push([
+              {
+                id: cartKey,
+                quantity2: newQty,
+              },
+            ]);
+            if (o.length === 0) {
+            } else {
+              novaLista.push(o);
+            }
+          }
+        });
+        novaLista.forEach(function (o) {
+          qantVolatel += parseInt(o[0].quantity2);
+        });
+      }
     } else {
       // If the user tries to delete the count of product, set that to 1 by default ( This will not allow him to reduce it less than zero )
       newQty = event.target.value ? parseInt(event.target.value) : 1;
@@ -63,8 +68,9 @@ const SomaSub = ({ quantity2, setQuantity, cartKey }) => {
 
     // Set the new qty in state.
     setProductCount(newQty);
-
-    updateCart(cartKey, newQty, setQuantity, setUpdatingProduct);
+    console.log(novaLista);
+    setQuantity(qantVolatel);
+    localStorage.setItem("listCard", JSON.stringify(novaLista));
   };
   return (
     <div>

@@ -17,66 +17,45 @@ const ClearCartComponent = dynamic(() => import("../../components/clearCart"), {
   ssr: false,
 });
 const CarrinhoComponent = () => {
-  const { quantity, setQuantity } = useContext(AppContext);
+  const { quantity, setQuantity, todosProdutos } = useContext(AppContext);
   const [list, setList] = useState([]);
   const [total, setTotal] = useState([]);
+  const [gatilho, setGatilho] = useState("a");
+  const [isAddedToCart, setIsAddedToCart] = useState(true);
   const qnt = parseInt(quantity);
-  
+
   useEffect(() => {
-    var listaProdutoVolatel = [];
+    var listaVolatel = [];
     var totalVolatel = 0;
-    
-    const getSession = () => {
-      return localStorage.getItem("x-wc-session");
-    };
-    const getApiCartConfig = () => {
-      const config = {
-        headers: {
-          "X-Headless-CMS": true,
-        },
-      };
-
-      const storedSession = getSession();
-
-      if (!isEmpty(storedSession)) {
-        config.headers["x-wc-session"] = storedSession;
-      }
-
-      return config;
-    };
-    const viewCart2 = () => {
-      const addOrViewCartConfig = getApiCartConfig();
-  
-      axios
-        .get(CART_ENDPOINT, addOrViewCartConfig)
-        .then((res) => {
-          listaProdutoVolatel = [];
-          totalVolatel = 0;
-          res.data.map((item) => {
-            totalVolatel += parseFloat(item.line_total);
-            listaProdutoVolatel.push({
-              quantity: item.quantity,
-              line_total: item.line_total,
-              name: item.data.name,
-              id: item.data.id,
-              cartKey: item.key,
-              src: item.data.images[0].src || "",
-            });
+    var students = JSON.parse(localStorage.getItem("listCard")) || [];
+    todosProdutos.map((todo) => {
+      students.forEach(function (o) {
+        if (o[0].id === todo.id) {
+          console.log(o[0].quantity2);
+          totalVolatel +=
+            parseFloat(todo.sale_price) * parseFloat(o[0].quantity2);
+          listaVolatel.push({
+            quantity: o[0].quantity2,
+            line_total:
+              parseFloat(todo.sale_price) * parseFloat(o[0].quantity2),
+            name: todo.name,
+            sale_price: todo.sale_price,
+            id: todo.id,
+            cartKey: todo.id,
+            src: todo.images[0].src || "",
           });
-          setList(listaProdutoVolatel);
-          setTotal(totalVolatel);
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
-    };
-    viewCart2();
+        }
+      });
+    });
+    setList(listaVolatel);
+    setTotal(totalVolatel);
+    setGatilho("b");
     const init = async () => {
       const { Ripple, initTWE } = await import("tw-elements");
       initTWE({ Ripple });
     };
     init();
-  }, [quantity]);
+  }, [quantity, todosProdutos]);
   return (
     <div className="h-screen container mx-auto py-4 min-h-50vh">
       {qnt === 0 ? (
@@ -132,6 +111,8 @@ const CarrinhoComponent = () => {
                         quantity2={product.quantity}
                         id={product.id}
                         cartKey={product.cartKey}
+                        setIsAddedToCart={setIsAddedToCart}
+                        setGatilho={setGatilho}
                       />
                     </div>
                   </div>

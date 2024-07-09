@@ -2,17 +2,35 @@
 import React, { useState, useEffect, useContext } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import axios from "axios";
-import { isEmpty } from "lodash";
-import { CART_ENDPOINT } from "../src/utils/constants/endpoints";
-const AddToCart2Component = dynamic(() => import("../src/components/addToCart"), {
-  ssr: false,
-});
+import AppContext from "../src/components/AppContext";
+const AddToCart2Component = dynamic(
+  () => import("../src/components/addToCart"),
+  {
+    ssr: false,
+  }
+);
 const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
+  const { quantity, setQuantity } = useContext(AppContext);
   const [list, setList] = useState([]);
   const [listCart, setListCart] = useState([]);
+  const [listCartFF, setListCartFF] = useState([]);
   const [categoria, setCategoria] = useState("");
+  const [gatilho, setGatilho] = useState("a");
+  var qantVolatel = 0;
+  var listIDs = [];
   useEffect(() => {
+    listIDs = [];
+    var students = JSON.parse(localStorage.getItem("listCard")) || [];
+
+    setListCart(students);
+    for (let index = 0; index < students.length; index++) {
+      const item = students[index];
+      listIDs.push(item[0].id);
+    }
+    setListCartFF(listIDs);
+  }, [listaTodosProdutos]);
+  useEffect(() => {
+    var students = JSON.parse(localStorage.getItem("listCard")) || [];
     var listaConProdutos = [];
     var listaConProdutosTemp = [];
     var listaNomesTemp = [];
@@ -21,81 +39,50 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
       const { Ripple, initTWE } = await import("tw-elements");
       initTWE({ Ripple });
     };
-    const getSession = () => {
-      return localStorage.getItem("x-wc-session");
-    };
-    const getApiCartConfig = () => {
-      const config = {
-        headers: {
-          "X-Headless-CMS": true,
-        },
-      };
-
-      const storedSession = getSession();
-
-      if (!isEmpty(storedSession)) {
-        config.headers["x-wc-session"] = storedSession;
-      }
-
-      return config;
-    };
-
-    const viewCart2 = async () => {
-      const addOrViewCartConfig = getApiCartConfig();
-      await axios
-        .get(CART_ENDPOINT, addOrViewCartConfig)
-        .then((res) => {
-          res.data.map((item) => {
-            listaNomesTemp.push(item.data.name);
+    listaTodosProdutos.map((it) => {
+      if (contagem <= 5) {
+        contagem += 1;
+        if (listCartFF.includes(it.id)) {
+          listCart.map((nov) => {
+            if (nov[0].id === it.id) {
+              listaConProdutosTemp.push({
+                id: it.id,
+                name: it.name,
+                sale_price: it.sale_price,
+                images: it.images[0].src || "",
+                stock_status: it.stock_status,
+                categories: it.categories,
+                quantity: nov[0].quantity2,
+                cartKey: nov[0].id,
+                slug: it.slug,
+                status: true,
+              });
+            }
           });
-          setListCart(res.data);
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
-
-      listaTodosProdutos.map((it) => {
-        if (contagem <= 5) {
-          contagem += 1;
-          if (listaNomesTemp.includes(it.name)) {
-            listCart.map((tf) => {
-              if (it.name === tf.data.name) {
-                listaConProdutosTemp.push({
-                  id: it.id,
-                  name: it.name,
-                  sale_price: it.sale_price,
-                  images: it.images[0].src || "",
-                  stock_status: it.stock_status,
-                  categories: it.categories,
-                  quantity: tf.quantity,
-                  cartKey: tf.key,
-                  slug: it.slug,
-                  status: true,
-                });
-              }
-            });
-          } else {
-            listaConProdutosTemp.push({
-              id: it.id,
-              name: it.name,
-              sale_price: it.sale_price,
-              images: it.images[0].src || "",
-              stock_status: it.stock_status,
-              categories: it.categories,
-              quantity: "0",
-              cartKey: "",
-              slug: it.slug,
-              status: false,
-            });
-          }
+        } else {
+          listaConProdutosTemp.push({
+            id: it.id,
+            name: it.name,
+            sale_price: it.sale_price,
+            images: it.images[0].src || "",
+            stock_status: it.stock_status,
+            categories: it.categories,
+            quantity: "1",
+            cartKey: it.id,
+            slug: it.slug,
+            status: false,
+          });
         }
-      });
-      setList(listaConProdutosTemp);
-    };
-
+      }
+    });
+    students.forEach(function (o) {
+      qantVolatel += parseInt(o[0].quantity2);
+    });
+    setQuantity(qantVolatel);
+    setList(listaConProdutosTemp);
     init();
-    viewCart2();
-  }, [listaTodosProdutos, listCart]);
+  }, [listaTodosProdutos, listCart, listCartFF, gatilho]);
+
   return (
     <>
       {" "}
@@ -167,6 +154,10 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
                                   status={status}
                                   quantity2={quantity}
                                   cartKey={cartKey}
+                                  listCart={listCart}
+                                  setListCart={setListCart}
+                                  setList={setList}
+                                  setGatilho={setGatilho}
                                 />
                               </div>
                             )}
@@ -221,6 +212,8 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
                                     status={status}
                                     quantity2={quantity}
                                     cartKey={cartKey}
+                                    listCart={listCart}
+                                    setListCart={setListCart}
                                   />
                                 </div>
                               )}
@@ -240,7 +233,6 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
               </a>
             </div>
           </div>
-
         </>
       )}
     </>
