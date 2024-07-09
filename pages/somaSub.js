@@ -6,7 +6,9 @@ const SomaSub = ({ quantity2, setQuantity, cartKey, setIsAddedToCart }) => {
   const [productCount, setProductCount] = useState(quantity2);
   const [updatingProduct, setUpdatingProduct] = useState(false);
   const [removingProduct, setRemovingProduct] = useState(false);
-  var students = JSON.parse(localStorage.getItem("listCard")) || [];
+  if (typeof window !== 'undefined') {
+    var students = JSON.parse(localStorage.getItem("listCard")) || [];
+  }  
   var novaLista = [];
   var qantVolatel = 0;
   const isMounted = useRef(false);
@@ -70,7 +72,10 @@ const SomaSub = ({ quantity2, setQuantity, cartKey, setIsAddedToCart }) => {
     setProductCount(newQty);
     console.log(novaLista);
     setQuantity(qantVolatel);
-    localStorage.setItem("listCard", JSON.stringify(novaLista));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("listCard", JSON.stringify(novaLista));
+    }
+    
   };
   return (
     <div>
