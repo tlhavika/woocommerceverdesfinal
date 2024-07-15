@@ -148,6 +148,15 @@ const VideoComponent = () => {
           </div>
         </div>
       </div>
+      <div className="mt-12 grid-cols-1 flex justify-center">
+        <Image
+            width={1200}
+            height={700}
+            className="rounded-t-lg"
+            src="/melhor qualidade.png"
+            alt=""
+          />
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-24">
         <div className="p-4 block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark dark:text-white text-surface lg:col-span-2">
           <p className="mt-4 lg:mb-4 text-4xl text-center font-bold text-primary">
@@ -265,6 +274,15 @@ const VideoComponent = () => {
           />
         </div>
       </div>
+      <div className="mt-12 grid-cols-1 flex justify-center">
+        <Image
+            width={1300}
+            height={700}
+            className="rounded-t-lg"
+            src="/25 desconto.png"
+            alt=""
+          />
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-24">
         <div className="block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark dark:text-white text-surface ">
           <Image
@@ -381,6 +399,15 @@ const VideoComponent = () => {
             </button>
           </div>
         </div>
+      </div>
+      <div className="mt-12 grid-cols-1 flex justify-center">
+        <Image
+            width={1300}
+            height={700}
+            className="rounded-t-lg"
+            src="/whatsapp.png"
+            alt=""
+          />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-24">
         <div className="p-4 block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark dark:text-white text-surface lg:col-span-2">
