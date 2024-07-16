@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import AppContext from "../src/components/AppContext";
+import { getProductsData } from "../src/utils/products";
 const AddToCart2Component = dynamic(
   () => import("../src/components/addToCart"),
   {
@@ -13,11 +14,19 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
   const { quantity, setQuantity } = useContext(AppContext);
   const [list, setList] = useState([]);
   const [listCart, setListCart] = useState([]);
+  const [listActualProdutos, setListActualProdutos] = useState([]);
   const [listCartFF, setListCartFF] = useState([]);
   const [categoria, setCategoria] = useState("");
   const [gatilho, setGatilho] = useState("a");
   var qantVolatel = 0;
   var listIDs = [];
+  async function getPro() {
+    const { data: products } = await getProductsData();
+    setListActualProdutos(products);
+  }
+  useEffect(() => {
+    getPro();
+  }, []);
   useEffect(() => {
     listIDs = [];
     var students = JSON.parse(localStorage.getItem("listCard")) || [];
@@ -28,7 +37,7 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
       listIDs.push(item[0].id);
     }
     setListCartFF(listIDs);
-  }, [listaTodosProdutos]);
+  }, [listActualProdutos]);
   useEffect(() => {
     var students = JSON.parse(localStorage.getItem("listCard")) || [];
     var listaConProdutos = [];
@@ -39,7 +48,7 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
       const { Ripple, initTWE } = await import("tw-elements");
       initTWE({ Ripple });
     };
-    listaTodosProdutos.map((it) => {
+    listActualProdutos.map((it) => {
       if (contagem <= 5) {
         contagem += 1;
         if (listCartFF.includes(it.id)) {
@@ -81,7 +90,7 @@ const ProductsHomePageComponent = ({ listaTodosProdutos }) => {
     setQuantity(qantVolatel);
     setList(listaConProdutosTemp);
     init();
-  }, [listaTodosProdutos, listCart, listCartFF, gatilho]);
+  }, [listActualProdutos, listCart, listCartFF, gatilho]);
 
   return (
     <>

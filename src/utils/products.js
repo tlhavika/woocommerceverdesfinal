@@ -56,7 +56,7 @@ export const getSession = () => {
  * @return {Promise<void>}
  */
 export const getProductsData = async (perPage = 50) => {
-  return await api.get("products", {
+  return await api.get("products", { 
     per_page: perPage || 50,
   });
 };
