@@ -409,6 +409,7 @@ const VideoComponent = () => {
             alt=""
           />
       </div>
+      {/* Imagens Servidor */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-24">
         <div className="p-4 block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark dark:text-white text-surface lg:col-span-2">
           <p className="mt-4 lg:mb-4 text-4xl text-center font-bold text-primary">
